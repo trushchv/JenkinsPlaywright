@@ -1,17 +1,37 @@
 package com.Ryerson;
 
+import com.google.gson.JsonObject;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 
-public class IluminatorRegression {
-        public static void main(String[] args) {
-                Playwright playwright = null;
-                Browser browser = null;
-                try {
-                        playwright = Playwright.create();
-                        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
-                        Page page = browser.newPage();
+public class IluminatorRegression {
+        public static void main(String[] args) throws UnsupportedEncodingException {
+                JsonObject capabilities = new JsonObject();
+                JsonObject ltOptions = new JsonObject();
+
+                String user = "vtrushch";
+                String accessKey = "VrJ4oNi9ePewUVxIsFlLgiDhmtvdYrhQz1JmdEczBejZd4M4vx";
+
+                capabilities.addProperty("browsername", "Chrome"); // Browsers allowed: `Chrome`, `MicrosoftEdge`,
+                // `pw-chromium`, `pw-firefox` and `pw-webkit`
+                capabilities.addProperty("browserVersion", "latest");
+                ltOptions.addProperty("platform", "Windows 10");
+                ltOptions.addProperty("name", "Playwright Test");
+                ltOptions.addProperty("build", "Playwright Java Build 2");
+                ltOptions.addProperty("user", user);
+                ltOptions.addProperty("accessKey", accessKey);
+                capabilities.add("LT:Options", ltOptions);
+
+                // Playwright test
+                Playwright playwright = Playwright.create();
+                BrowserType chromium = playwright.chromium();
+                String caps = URLEncoder.encode(capabilities.toString(), "utf-8");
+                String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
+                Browser browser = chromium.connect(cdpUrl);
+                Page page = browser.newPage();
                         page.navigate("https://illuminator-test.mendixcloud.com/index.html");
 
                         Page page6 = page.waitForPopup(() -> page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("ryerson.com")).click());
@@ -121,15 +141,7 @@ public class IluminatorRegression {
 
                         page.locator("//a[text()='Clear Scenario(s) & Start Over']").click();
                         page.waitForTimeout(2000);
-                } catch (Exception e) {
-                        e.printStackTrace();
-                } finally {
-                        if (browser != null) {
-                                browser.close();
-                        }
-                        if (playwright != null) {
-                                playwright.close();
-                        }
+
                 }
         }
-}
+
