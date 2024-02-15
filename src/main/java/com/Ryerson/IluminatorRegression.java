@@ -3,20 +3,22 @@ package com.Ryerson;
 import com.google.gson.JsonObject;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
+import org.junit.Test; // Importing the Test annotation
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class IluminatorRegression {
-        public static void main(String[] args) throws UnsupportedEncodingException {
+
+        @Test // Annotation indicating that this is a test method
+        public void runIluminatorRegressionTest() throws UnsupportedEncodingException {
                 JsonObject capabilities = new JsonObject();
                 JsonObject ltOptions = new JsonObject();
 
                 String user = "vtrushch";
                 String accessKey = "VrJ4oNi9ePewUVxIsFlLgiDhmtvdYrhQz1JmdEczBejZd4M4vx";
 
-                capabilities.addProperty("browsername", "Chrome"); // Browsers allowed: `Chrome`, `MicrosoftEdge`,
-                // `pw-chromium`, `pw-firefox` and `pw-webkit`
+                capabilities.addProperty("browserName", "chrome");
                 capabilities.addProperty("browserVersion", "latest");
                 ltOptions.addProperty("platform", "Windows 10");
                 ltOptions.addProperty("name", "Playwright Test");
@@ -26,13 +28,13 @@ public class IluminatorRegression {
                 capabilities.add("LT:Options", ltOptions);
 
                 // Playwright test
-                Playwright playwright = Playwright.create();
-                BrowserType chromium = playwright.chromium();
-                String caps = URLEncoder.encode(capabilities.toString(), "utf-8");
-                String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
-                Browser browser = chromium.connect(cdpUrl);
-                Page page = browser.newPage();
-                        page.navigate("https://illuminator-test.mendixcloud.com/index.html");
+                try (Playwright playwright = Playwright.create()) {
+                        BrowserType chromium = playwright.chromium();
+                        String caps = URLEncoder.encode(capabilities.toString(), "utf-8");
+                        String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
+                        try (Browser browser = chromium.connect(cdpUrl)) {
+                                Page page = browser.newPage();
+                                page.navigate("https://illuminator-test.mendixcloud.com/index.html");
 
                         Page page6 = page.waitForPopup(() -> page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("ryerson.com")).click());
                         page.waitForTimeout(8000);
@@ -143,5 +145,51 @@ public class IluminatorRegression {
                         page.waitForTimeout(2000);
 
                 }
-        }
+        }}}
+
+//package com.Ryerson;
+//
+//import com.google.gson.JsonObject;
+//import com.microsoft.playwright.*;
+//import com.microsoft.playwright.options.AriaRole;
+//import org.junit.Test; // Importing the Test annotation
+//
+//import java.io.UnsupportedEncodingException;
+//import java.net.URLEncoder;
+//
+//public class IluminatorRegression {
+//
+//        @Test // Annotation indicating that this is a test method
+//        public void runIluminatorRegressionTest() throws UnsupportedEncodingException {
+//                JsonObject capabilities = new JsonObject();
+//                JsonObject ltOptions = new JsonObject();
+//
+//                String user = "vtrushch";
+//                String accessKey = "VrJ4oNi9ePewUVxIsFlLgiDhmtvdYrhQz1JmdEczBejZd4M4vx";
+//
+//                capabilities.addProperty("browserName", "chrome");
+//                capabilities.addProperty("browserVersion", "latest");
+//                ltOptions.addProperty("platform", "Windows 10");
+//                ltOptions.addProperty("name", "Playwright Test");
+//                ltOptions.addProperty("build", "Playwright Java Build 2");
+//                ltOptions.addProperty("user", user);
+//                ltOptions.addProperty("accessKey", accessKey);
+//                capabilities.add("LT:Options", ltOptions);
+//
+//                // Playwright test
+//                try (Playwright playwright = Playwright.create()) {
+//                        BrowserType chromium = playwright.chromium();
+//                        String caps = URLEncoder.encode(capabilities.toString(), "utf-8");
+//                        String cdpUrl = "wss://cdp.lambdatest.com/playwright?capabilities=" + caps;
+//                        try (Browser browser = chromium.connect(cdpUrl)) {
+//                                Page page = browser.newPage();
+//                                page.navigate("https://illuminator-test.mendixcloud.com/index.html");
+//
+//                                // Your test steps here...
+//                        }
+//                } catch (PlaywrightException e) {
+//                        System.err.println("Playwright Exception: " + e.getMessage());
+//                }
+//        }
+//}
 
