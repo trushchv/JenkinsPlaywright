@@ -3,14 +3,14 @@ package com.Ryerson;
 import com.google.gson.JsonObject;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
-import org.junit.Test; // Importing the Test annotation
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class IluminatorRegression {
 
-        @Test // Annotation indicating that this is a test method
+        @Test
         public void runIluminatorRegressionTest() throws UnsupportedEncodingException {
                 JsonObject capabilities = new JsonObject();
                 JsonObject ltOptions = new JsonObject();
@@ -27,7 +27,6 @@ public class IluminatorRegression {
                 ltOptions.addProperty("accessKey", accessKey);
                 capabilities.add("LT:Options", ltOptions);
 
-                // Playwright test
                 try (Playwright playwright = Playwright.create()) {
                         BrowserType chromium = playwright.chromium();
                         String caps = URLEncoder.encode(capabilities.toString(), "utf-8");
