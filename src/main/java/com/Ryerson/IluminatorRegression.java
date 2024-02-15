@@ -125,7 +125,7 @@ public class IluminatorRegression {
                         System.out.println("Name of the button = " + page.locator("//span[text()='Download and Share']").textContent());
                         page.locator("//span[text()='Download and Share']").click();
 
-                        page.locator("//input[@placeholder='Enter an email address']").fill("vitalii.trushchenkov@ryerson.com");
+                        page.locator("//input[@placeholder='Enter an email address']").first().fill("vitalii.trushchenkov@ryerson.com");
                         page.locator("//textarea[contains(@class,'form-control mx-textarea-input')]").fill("test");
 
                         page.locator("//div[contains(@class,'mx-name-container10 spacing-outer-top-medium')]//img[1]").click();
