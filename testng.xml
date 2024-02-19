@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"><suite name="All Test Suite"><test verbose="2" preserve-order="true" name="C:/Users/r104834/IdeaProjects/JenkinsPlaywright"><classes><class name="com.Ryerson.IluminatorRegression"><methods><include name="runIluminatorRegressionTest"/></methods></class></classes></test></suite>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/r104834/IdeaProjects/JenkinsPlaywright/src/main/java/com/Ryerson/ActionHubRegression.java">
+        <classes>
+            <class name="com.Ryerson.IluminatorRegression">
+                <methods>
+                    <include name="IT_Reviewer_Test_Plan"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
