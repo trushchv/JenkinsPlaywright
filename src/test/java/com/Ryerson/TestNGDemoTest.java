@@ -50,12 +50,12 @@ public class TestNGDemoTest extends PlaywrightConnection{
             Page page6 = page.waitForPopup(() -> page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("ryerson.com")).click());
             page.waitForTimeout(8000);
             page6.close();
-
+            page.waitForTimeout(8000);
             // Rest of your test logic here...
 
-        } catch (Exception err) {
-            setTestStatus("failed", err.getMessage(), page);
-            err.printStackTrace();
+//        } catch (Exception err) {
+//            setTestStatus("failed", err.getMessage(), page);
+//            err.printStackTrace();
         } finally {
             browser.close();
             playwright.close();
